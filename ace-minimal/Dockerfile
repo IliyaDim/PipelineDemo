@@ -7,13 +7,13 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends curl
 
 # Set up exclusions
-COPY excludes*txt /tmp/
+# COPY excludes*txt /tmp/
 
 # Install ACE v11.0.0.4 and accept the license
 RUN apt-get install -y zip binutils && \
     mkdir /opt/ibm && \
     curl http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/integration/11.0.0.4-ACE-LINUX64-DEVELOP.tar.gz \
-    | tar zx --exclude-from=/tmp/all-excludes.txt --directory /opt/ibm && \
+    | tar zx --exclude ace-11.0.0.4/tools --directory /opt/ibm && \
     mv /opt/ibm/ace-11.0.0.4 /opt/ibm/ace-11 && \
     find /opt/ibm -name "*.so*" -exec strip {} ";" && \
     find /opt/ibm -name "*.wrk" -exec strip {} ";" && \
