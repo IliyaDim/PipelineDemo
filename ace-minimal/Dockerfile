@@ -42,6 +42,7 @@ ENV BASH_ENV=/usr/local/bin/ace_env.sh
 
 # Create a user to run as, create the ace workdir, and chmod script files
 RUN useradd --create-home --home-dir /home/aceuser --shell /bin/bash -G mqbrkrs,sudo aceuser \
+  && sed -e 's/^%sudo	.*/%sudo	ALL=NOPASSWD:ALL/g' -i /etc/sudoers \
   && su - aceuser -c '. /opt/ibm/ace-11/server/bin/mqsiprofile && mqsicreateworkdir /home/aceuser/ace-server' \
   && echo ". /usr/local/bin/ace_env.sh" >> /home/aceuser/.bashrc \
   && chmod 755 /usr/local/bin/*
