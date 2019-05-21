@@ -4,7 +4,7 @@ FROM ace-minimal
 RUN sed -i 's/#port: 7600/port: -1/g' /home/aceuser/ace-server/server.conf.yaml 
 
 COPY aceFunction.bar /tmp/aceFunction.bar
-RUN bash -c "mqsibar -c -a /tmp/aceFunction.bar -w /home/aceuser/ace-server"
+RUN bash -c "mqsibar -c -a /tmp/PING_Basic_BAR.bar -w /home/aceuser/ace-server"
 
 # Set entrypoint to run the server
 ENTRYPOINT ["bash", "-c", "IntegrationServer -w /home/aceuser/ace-server"]
