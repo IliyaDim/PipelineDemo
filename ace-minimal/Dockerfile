@@ -10,17 +10,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl
 # COPY excludes*txt /tmp/
 
 # Install ACE v11.0.0.4 and accept the license
-RUN apt-get install -y zip binutils && \
-    mkdir /opt/ibm && \
+RUN mkdir /opt/ibm && \
     curl http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/integration/11.0.0.4-ACE-LINUX64-DEVELOP.tar.gz \
     | tar zx --exclude ace-11.0.0.4/tools --directory /opt/ibm && \
     mv /opt/ibm/ace-11.0.0.4 /opt/ibm/ace-11 && \
-    find /opt/ibm -name "*.so*" -exec strip {} ";" && \
-    find /opt/ibm -name "*.wrk" -exec strip {} ";" && \
-    find /opt/ibm -name "*.lil" -exec strip {} ";" && \
-    ( strip /opt/ibm/ace-11/server/bin/* 2>/dev/null || /bin/true ) && \
-    zip -d /opt/ibm/ace-11/common/classes/IntegrationAPI.jar BIPmsgs_de.properties BIPmsgs_es.properties BIPmsgs_fr.properties BIPmsgs_it.properties BIPmsgs_ja.properties BIPmsgs_ko.properties BIPmsgs_pl.properties BIPmsgs_pt_BR.properties BIPmsgs_ru.properties BIPmsgs_tr.properties BIPmsgs_zh.properties BIPmsgs_zh_HK.properties BIPmsgs_zh_TW.properties && \
-    apt-get remove -y zip binutils binutils-common binutils-x86-64-linux-gnu libbinutils && \
     /opt/ibm/ace-11/ace make registry global accept license silently
 
 # The product is now installed, and everything below is ease-of-use enhancements.
